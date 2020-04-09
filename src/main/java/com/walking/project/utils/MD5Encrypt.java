@@ -1,4 +1,4 @@
-package com.walking.meeting.utils;
+package com.walking.project.utils;
 
 
 import java.util.Objects;

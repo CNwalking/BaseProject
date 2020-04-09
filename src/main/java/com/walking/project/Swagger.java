@@ -1,4 +1,4 @@
-package com.walking.meeting;
+package com.walking.project;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,14 +20,14 @@ public class Swagger {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.ucmed.petra.center.account.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.walking.project.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("中台--账号中心接口")
+                .title("Project API接口")
                 .description("")
                 .termsOfServiceUrl("")
                 .version("1.0")
