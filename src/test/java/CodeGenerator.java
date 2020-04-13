@@ -40,7 +40,7 @@ public class CodeGenerator {
     private static final String DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());//@date
 
     public static void main(String[] args) {
-        genCode("输入表名");
+        genCode("user");
         //genCodeByCustomModelName("输入表名","输入自定义Model名称");
     }
 
@@ -64,7 +64,7 @@ public class CodeGenerator {
     public static void genCodeByCustomModelName(String tableName, String modelName) {
         genModelAndMapper(tableName, modelName);
         genService(tableName, modelName);
-        genController(tableName, modelName);
+//        genController(tableName, modelName);
     }
 
 
@@ -82,10 +82,16 @@ public class CodeGenerator {
         jdbcConnectionConfiguration.setDriverClass(JDBC_DIVER_CLASS_NAME);
         context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
 
-        PluginConfiguration pluginConfiguration = new PluginConfiguration();
-        pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
-        pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
-        context.addPluginConfiguration(pluginConfiguration);
+        // tk.mybatis效率太低了不要了
+//        PluginConfiguration pluginConfiguration = new PluginConfiguration();
+//        pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
+//        pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
+//        context.addPluginConfiguration(pluginConfiguration);
+
+        // 跟注释相关的
+        CommentGeneratorConfiguration configuration = new CommentGeneratorConfiguration();
+        configuration.addProperty("suppressAllComments","true");
+        context.setCommentGeneratorConfiguration(configuration);
 
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
         javaModelGeneratorConfiguration.setTargetProject(PROJECT_PATH + JAVA_PATH);
@@ -158,8 +164,7 @@ public class CodeGenerator {
             if (!file1.getParentFile().exists()) {
                 file1.getParentFile().mkdirs();
             }
-            cfg.getTemplate("service-impl.ftl").process(data,
-                    new FileWriter(file1));
+            cfg.getTemplate("service-impl.ftl").process(data, new FileWriter(file1));
             System.out.println(modelNameUpperCamel + "ServiceImpl.java 生成成功");
         } catch (Exception e) {
             throw new RuntimeException("生成Service失败", e);
@@ -183,8 +188,9 @@ public class CodeGenerator {
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
-            //cfg.getTemplate("controller-restful.ftl").process(data, new FileWriter(file));
-            cfg.getTemplate("controller.ftl").process(data, new FileWriter(file));
+            // controller 不要生成
+            // cfg.getTemplate("controller-restful.ftl").process(data, new FileWriter(file));
+            // cfg.getTemplate("controller.ftl").process(data, new FileWriter(file));
 
             System.out.println(modelNameUpperCamel + "Controller.java 生成成功");
         } catch (Exception e) {

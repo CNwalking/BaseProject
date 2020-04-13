@@ -30,7 +30,7 @@ public class Swagger {
                 .title("Project API接口")
                 .description("")
                 .termsOfServiceUrl("")
-                .version("1.0")
+                .version("1.1")
                 .build();
     }
 

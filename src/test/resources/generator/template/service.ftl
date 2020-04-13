@@ -1,13 +1,11 @@
 package ${basePackage}.service;
-import ${basePackage}.model.${modelNameUpperCamel};
-import ${basePackage}.core.Service;
-
+import ${basePackage}.dataobject.entity.${modelNameUpperCamel};
 
 /**
 * @Author: CNwalking
-* @DateTime: ${DATE} ${TIME}
+* @DateTime: ${date}
 * @Description: TODO
 */
-public interface ${modelNameUpperCamel}Service extends Service<${modelNameUpperCamel}> {
+public interface ${modelNameUpperCamel}Service {
 
 }

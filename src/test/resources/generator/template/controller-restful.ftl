@@ -1,4 +1,4 @@
-package ${basePackage}.web;
+package ${basePackage}.controller;
 
 import ${basePackage}.core.Result;
 import ${basePackage}.core.ResultGenerator;
