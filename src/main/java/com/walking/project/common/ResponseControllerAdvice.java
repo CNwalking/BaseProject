@@ -20,7 +20,7 @@ public class ResponseControllerAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> aClass) {
         // 如果接口返回的类型本身就是ResultVO那就没有必要进行额外的操作，返回false
-        return !returnType.getGenericParameterType().equals(Result.class);
+        return !returnType.getParameterType().equals(Result.class);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ResponseControllerAdvice implements ResponseBodyAdvice<Object> {
         if (returnType.getGenericParameterType().equals(String.class)) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
-                // 将数据包装在ResultVO里后，再转换为json字符串响应给前端
+                // 将数据包装在Result里后，再转换为json字符串响应给前端
                 return objectMapper.writeValueAsString(new Result<>(data));
             } catch (JsonProcessingException e) {
                 throw new APIException("返回String类型错误");

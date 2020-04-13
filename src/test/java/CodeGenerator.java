@@ -88,7 +88,7 @@ public class CodeGenerator {
 //        pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
 //        context.addPluginConfiguration(pluginConfiguration);
 
-        // 跟注释相关的
+        // 去掉mybatis自带的注释
         CommentGeneratorConfiguration configuration = new CommentGeneratorConfiguration();
         configuration.addProperty("suppressAllComments","true");
         context.setCommentGeneratorConfiguration(configuration);

@@ -33,10 +33,10 @@ public class UserController {
 
     @ApiOperation(value = "测试get方法连接", notes = "测试get方法连接")
     @GetMapping("/get/connection/test")
-    public UserVO testGetConnection() {
+    public Result<UserVO> testGetConnection() {
         UserVO vo = new UserVO();
         vo.setAccount("getTestSuccess");
         vo.setEmail("success@success.com");
-        return vo;
+        return new Result(vo);
     }
 }

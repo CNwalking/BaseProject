@@ -11,7 +11,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.walking.project.mapper"})
 @EnableCaching
 @EnableSwagger2
 @EnableTransactionManagement
