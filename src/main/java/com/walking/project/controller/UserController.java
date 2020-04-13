@@ -38,5 +38,7 @@ public class UserController {
         vo.setAccount("getTestSuccess");
         vo.setEmail("success@success.com");
         return new Result(vo);
+        // 可以直接return, ResponseControllerAdvice 会帮你自动拼接出result
+        // return vo;
     }
 }
