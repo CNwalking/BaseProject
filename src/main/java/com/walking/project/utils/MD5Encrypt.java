@@ -12,7 +12,9 @@ import org.apache.commons.codec.digest.DigestUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * MD5加密 Util.
+ * @Author: CNwalking
+ * @DateTime: 2020/4/9 22:03
+ * @Description:MD5加密Util.
  */
 @Slf4j
 public class MD5Encrypt {
