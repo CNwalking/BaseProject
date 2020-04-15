@@ -3,19 +3,15 @@ package com.walking.project.dataobject.entity;
 import java.util.Date;
 
 public class User {
-    private Integer id;
+    private Long userId;
 
-    private String username;
+    private String account;
 
-    private String pswd;
+    private String name;
 
-    private String departmentName;
+    private String password;
 
     private String email;
-
-    private String question;
-
-    private String answer;
 
     private Integer roleId;
 
@@ -23,38 +19,38 @@ public class User {
 
     private Date updateTime;
 
-    private String deleteTime;
+    private String status;
 
-    public Integer getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getAccount() {
+        return account;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
-    public String getPswd() {
-        return pswd;
+    public String getName() {
+        return name;
     }
 
-    public void setPswd(String pswd) {
-        this.pswd = pswd;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -63,22 +59,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
     }
 
     public Integer getRoleId() {
@@ -105,11 +85,11 @@ public class User {
         this.updateTime = updateTime;
     }
 
-    public String getDeleteTime() {
-        return deleteTime;
+    public String getStatus() {
+        return status;
     }
 
-    public void setDeleteTime(String deleteTime) {
-        this.deleteTime = deleteTime;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
