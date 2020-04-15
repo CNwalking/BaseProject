@@ -19,7 +19,7 @@ import static com.walking.project.common.ProjectConstant.*;
  */
 public class CodeGenerator {
     //JDBC配置
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/demo-test?useUnicode=true&characterEncoding=utf8&autoReconnect=true";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/BaseProject?useUnicode=true&characterEncoding=utf8&autoReconnect=true";
     private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "123";
     private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.jdbc.Driver";

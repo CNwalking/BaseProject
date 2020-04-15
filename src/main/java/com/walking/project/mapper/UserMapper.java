@@ -7,13 +7,15 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long userId);
 
     int insert(User record);
 
-    User selectByPrimaryKey(Integer id);
+    User selectByPrimaryKey(Long userId);
 
     List<User> selectAll();
 
     int updateByPrimaryKey(User record);
+
+    User selectByAccount(String account);
 }

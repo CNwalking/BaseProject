@@ -2,58 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.walking.project.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.walking.project.dataobject.entity.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="pswd" jdbcType="VARCHAR" property="pswd" />
-    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="question" jdbcType="VARCHAR" property="question" />
-    <result column="answer" jdbcType="VARCHAR" property="answer" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_id" jdbcType="BIT" property="roleId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_time" jdbcType="VARCHAR" property="deleteTime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from user
-    where id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.walking.project.dataobject.entity.User">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into user (username, pswd, department_name, 
-      email, question, answer, 
-      role_id, create_time, update_time, 
-      delete_time)
-    values (#{username,jdbcType=VARCHAR}, #{pswd,jdbcType=VARCHAR}, #{departmentName,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, 
-      #{roleId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteTime,jdbcType=VARCHAR})
+    insert into user (user_id, account, name,
+      password, email, role_id,
+      create_time, update_time, status
+      )
+    values (#{userId,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{roleId,jdbcType=BIT},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.walking.project.dataobject.entity.User">
     update user
-    set username = #{username,jdbcType=VARCHAR},
-      pswd = #{pswd,jdbcType=VARCHAR},
-      department_name = #{departmentName,jdbcType=VARCHAR},
+    set account = #{account,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      question = #{question,jdbcType=VARCHAR},
-      answer = #{answer,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_time = #{deleteTime,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+      status = #{status,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, username, pswd, department_name, email, question, answer, role_id, create_time, 
-    update_time, delete_time
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_id, account, name, password, email, role_id, create_time, update_time,
+    status
     from user
-    where id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, username, pswd, department_name, email, question, answer, role_id, create_time, 
-    update_time, delete_time
+    select user_id, account, name, password, email, role_id, create_time, update_time,
+    status
     from user
+  </select>
+
+  <select id="selectByAccount" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select user_id, account, name, password, email, role_id, create_time, update_time, status
+    from user
+    where account = #{account}
   </select>
 </mapper>

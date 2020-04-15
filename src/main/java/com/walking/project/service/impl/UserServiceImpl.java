@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 
 /**
 * @Author: CNwalking
-* @DateTime: 2020/04/13
+* @DateTime: 2020/04/15
 * @Description: TODO
 */
 @Service
@@ -20,4 +20,8 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
 
+    @Override
+    public User getUserByAccount(String account) {
+        return userMapper.selectByAccount(account);
+    }
 }
