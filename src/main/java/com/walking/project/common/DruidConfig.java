@@ -92,9 +92,9 @@ public class DruidConfig {
         filter.setName("druidWebStatFilter");
         filter.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*");
         filter.addUrlPatterns("/*");
-//        DelegatingFilterProxy proxy = new DelegatingFilterProxy();
-//        proxy.setTargetFilterLifecycle(true);
-//        proxy.setTargetBeanName("shiroFilter");
+        DelegatingFilterProxy proxy = new DelegatingFilterProxy();
+        proxy.setTargetFilterLifecycle(true);
+        proxy.setTargetBeanName("shiroFilter");
         return filter;
     }
 

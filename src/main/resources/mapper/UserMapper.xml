@@ -7,7 +7,8 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="role_id" jdbcType="BIT" property="roleId" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="permission" jdbcType="VARCHAR" property="permission" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="VARCHAR" property="status" />
@@ -17,14 +18,14 @@
     where user_id = #{userId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.walking.project.dataobject.entity.User">
-    insert into user (user_id, account, name,
-      password, email, role_id,
-      create_time, update_time, status
-      )
-    values (#{userId,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-      #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{roleId,jdbcType=BIT},
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
-      )
+    insert into user (user_id, account, name, 
+      password, email, role_id, 
+      permission, create_time, update_time, 
+      status)
+    values (#{userId,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, 
+      #{permission,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.walking.project.dataobject.entity.User">
     update user
@@ -32,27 +33,29 @@
       name = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=BIT},
+      role_id = #{roleId,jdbcType=INTEGER},
+      permission = #{permission,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select user_id, account, name, password, email, role_id, create_time, update_time,
-    status
+    select user_id, account, name, password, email, role_id, permission, create_time, 
+    update_time, status
     from user
     where user_id = #{userId,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select user_id, account, name, password, email, role_id, create_time, update_time,
-    status
+    select user_id, account, name, password, email, role_id, permission, create_time, 
+    update_time, status
     from user
   </select>
 
-  <select id="selectByAccount" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select user_id, account, name, password, email, role_id, create_time, update_time, status
+  <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select user_id, account, name, password, email, role_id, permission, create_time, update_time, status
     from user
-    where account = #{account}
+    where account = #{account} and status = 'NORMAL'
   </select>
+
 </mapper>

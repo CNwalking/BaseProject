@@ -1,5 +1,7 @@
 package com.walking.project.common;
 
+import java.util.HashMap;
+
 /**
  * @Author: CNwalking
  * @DateTime: 2020/4/9 21:46
@@ -20,4 +22,10 @@ public final class ProjectConstant {
     public static final String CONTROLLER_PACKAGE = BASE_PACKAGE + ".controller";
     // Mapper插件基础接口的完全限定名
     public static final String MAPPER_INTERFACE_REFERENCE = BASE_PACKAGE + ".Mapper";
+
+    public static final HashMap<Integer, String> ROLE_MAP = new HashMap<>();
+    static {
+        ROLE_MAP.put(1, "user");
+        ROLE_MAP.put(0, "admin");
+    }
 }

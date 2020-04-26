@@ -1,4 +1,4 @@
-package com.walking.project.common;
+package com.walking.project.common.exception;
 
 import lombok.Getter;
 

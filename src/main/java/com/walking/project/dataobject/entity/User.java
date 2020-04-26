@@ -15,6 +15,8 @@ public class User {
 
     private Integer roleId;
 
+    private String permission;
+
     private Date createTime;
 
     private Date updateTime;
@@ -67,6 +69,14 @@ public class User {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 
     public Date getCreateTime() {

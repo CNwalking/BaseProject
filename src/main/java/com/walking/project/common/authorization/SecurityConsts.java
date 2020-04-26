@@ -9,10 +9,10 @@ import lombok.Data;
  */
 @Data
 public class SecurityConsts {
-    // token过期时间，2小时
-    public static final Integer TOKEN_EXPIRE_TIME = 120;
-    // RefreshToken过期时间，一天
-    public static final Integer REFRESH_TOKEN_EXPIRE_TIME = 1440;
+    // token过期时间，一天
+    public static final Integer TOKEN_EXPIRE_TIME = 24*60*60*1000;
+    // RefreshToken过期时间，2小时
+    public static final Integer REFRESH_CHECK_TIME = 2*60*60*1000;
     // Shiro缓存有效期，单位分钟
     public static final Integer SHIRO_CACHE_EXPIRE_TIME = 120;
     // token加密密钥
@@ -21,10 +21,10 @@ public class SecurityConsts {
     public static final String REQUEST_AUTH_HEADER = "Authorization";
 
     public static final String ACCOUNT = "account";
-    //Shiro redis 前缀
-    public static final String PREFIX_SHIRO_CACHE = "cache:";
-    //redis-key-前缀-shiro:refresh_token
-    public final static String PREFIX_SHIRO_REFRESH_TOKEN = "refresh_token:";
-    //JWT-currentTimeMillis
-    public final static String CURRENT_TIME_MILLIS = "currentTimeMillis";
+
+    public static final String CURRENT_USER = "currentUser";
+
+    public static final String CURRENT_TIME_MILLIS = "currentTime";
+
+
 }
