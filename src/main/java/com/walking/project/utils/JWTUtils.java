@@ -26,16 +26,13 @@ public class JWTUtils {
     /**
      * 校验正确性
      * @param token 密钥
-     * @param account 账号
-     * @param secret 其实是密码
      * @return
      */
-    public static boolean verify(String token, String account, String secret) {
+    public static boolean verify(String token) {
         try {
+            String secret = getAccount(token) + SECRET_KEY;
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withClaim(ACCOUNT, account)
-                    .build();
+            JWTVerifier verifier = JWT.require(algorithm).build();
             verifier.verify(token);
             return true;
         } catch (Exception exception) {
@@ -45,17 +42,16 @@ public class JWTUtils {
 
     /**
      * 生成签名,一天后过期
-     * @param account 账号
-     * @param secret 密码
-     * @return 加密的token
      */
-    public static String sign(String account, String secret) {
+    public static String sign(String account, String currentTimeMillis) {
         try {
+            String secret = account + SECRET_KEY;
             Date date = new Date(System.currentTimeMillis() + TOKEN_EXPIRE_TIME);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             // 附带account信息
             return JWT.create()
                     .withClaim(ACCOUNT, account)
+                    .withClaim(CURRENT_TIME_MILLIS, currentTimeMillis)
                     .withExpiresAt(date)
                     .sign(algorithm);
         } catch (UnsupportedEncodingException e) {
@@ -73,4 +69,13 @@ public class JWTUtils {
         }
     }
 
+
+    public static String getTime(String token) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getClaim(CURRENT_TIME_MILLIS).asString();
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
 }

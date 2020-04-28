@@ -1,5 +1,9 @@
 package com.walking.project.service;
+import com.walking.project.common.Result;
 import com.walking.project.dataobject.entity.User;
+import com.walking.project.dataobject.vo.UserVO;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
 * @Author: CNwalking
@@ -8,6 +12,6 @@ import com.walking.project.dataobject.entity.User;
 */
 public interface UserService {
 
-    User getUserByAccount(String account);
+    Result isLoginSuccess(UserVO vo, HttpServletResponse response);
 
 }

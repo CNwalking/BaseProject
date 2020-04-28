@@ -1,9 +1,13 @@
 package com.walking.project.common.authorization;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.walking.project.common.ProjectConstant;
 import com.walking.project.dataobject.dto.LoginUser;
 import com.walking.project.dataobject.dto.UserContext;
+import com.walking.project.service.CacheService;
 import com.walking.project.service.UserService;
 import com.walking.project.utils.JWTUtils;
+import com.walking.project.utils.JedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
@@ -27,6 +31,8 @@ import static com.walking.project.common.authorization.SecurityConsts.*;
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 
     private UserService userService;
+    private CacheService cacheService;
+    private JedisUtils jedisUtils;
 
     /**
      * 对跨域提供支持
@@ -88,6 +94,8 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         // 如果没有抛出异常则代表登入成功，返回true
         String account = JWTUtils.getAccount(authorization);
         UserContext userContext = new UserContext(new LoginUser(account));
+        // 检查是否需要更换token，需要则重新颁发
+        this.refreshTokenIfNeed(account, authorization, response);
         return true;
     }
 
@@ -104,5 +112,60 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         }
     }
 
+    /**
+     * 检查是否需要更新Token
+     *
+     * @param authorization
+     * @param currentTimeMillis
+     * @return
+     */
+    private boolean refreshCheck(String authorization, Long currentTimeMillis) {
+        String tokenMillis = JWTUtils.getTime(authorization);
+        if (currentTimeMillis - Long.parseLong(tokenMillis) > (REFRESH_CHECK_TIME)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 检查是否需要,若需要则校验时间戳，刷新Token，并更新时间戳
+     * @param account
+     * @param authorization
+     * @param response
+     * @return
+     */
+    private boolean refreshTokenIfNeed(String account, String authorization, ServletResponse response) {
+        Long currentTimeMillis = System.currentTimeMillis();
+        //检查刷新规则
+        if (this.refreshCheck(authorization, currentTimeMillis)) {
+            String lockName = PREFIX_SHIRO_CACHE + account;
+            boolean b = cacheService.getLock(lockName, ProjectConstant.ExpireTime.ONE_MINUTE);
+            if (b) {
+                //获取到锁
+                String refreshTokenKey= PREFIX_SHIRO_CACHE + account;
+                if(jedisUtils.exists(refreshTokenKey)){
+                    //检查redis中的时间戳与token的时间戳是否一致
+                    String tokenTimeStamp = jedisUtils.get(refreshTokenKey);
+                    String tokenMillis= JWTUtils.getTime(authorization);
+                    if(!tokenMillis.equals(tokenTimeStamp)){
+                        throw new TokenExpiredException(String.format("账户%s的令牌无效", account));
+                    }
+                }
+                //时间戳一致，则颁发新的令牌
+                log.info(String.format("为账户%s颁发新的令牌", account));
+                String strCurrentTimeMillis = String.valueOf(currentTimeMillis);
+                String newToken = JWTUtils.sign(account,strCurrentTimeMillis);
+
+                //更新缓存中的token时间戳
+                jedisUtils.saveString(refreshTokenKey, strCurrentTimeMillis, TOKEN_EXPIRE_TIME/1000);
+
+                HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+                httpServletResponse.setHeader(REQUEST_AUTH_HEADER, newToken);
+                httpServletResponse.setHeader("Access-Control-Expose-Headers", REQUEST_AUTH_HEADER);
+            }
+            cacheService.releaseLock(lockName);
+        }
+        return true;
+    }
 
 }

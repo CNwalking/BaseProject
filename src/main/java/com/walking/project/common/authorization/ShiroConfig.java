@@ -46,6 +46,8 @@ public class ShiroConfig {
         defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
         subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
         manager.setSubjectDAO(subjectDAO);
+
+        manager.setCacheManager(shiroCacheManager());
         return manager;
     }
 
@@ -58,19 +60,14 @@ public class ShiroConfig {
         filterMap.put("jwt", new JWTFilter());
         factoryBean.setFilters(filterMap);
         factoryBean.setSecurityManager(securityManager);
-        /*
-         * 自定义url规则
-         * http://shiro.apache.org/web.html#urls-
-         */
         Map<String, String> filterRuleMap = new HashMap<>(2);
         // 访问401和404页面不通过我们的Filter
         filterRuleMap.put("/401", "anon");
         filterRuleMap.put("/404", "anon");
-        //通过http://127.0.0.1:9527/druid/index.html 访问 liugh/liugh
         filterRuleMap.put("/druid/**", "anon");
-        //放行webSocket
+        // 放行webSocket
         filterRuleMap.put("/websocket/*", "anon");
-        //放行swagger
+        // 放行swagger
         filterRuleMap.put("/swagger-ui.html", "anon");
         filterRuleMap.put("/swagger-resources", "anon");
         filterRuleMap.put("/v2/api-docs", "anon");
@@ -89,7 +86,6 @@ public class ShiroConfig {
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
         // 强制使用cglib，防止重复代理和可能引起代理出错的问题
-        // https://zhuanlan.zhihu.com/p/29161098
         defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
         return defaultAdvisorAutoProxyCreator;
     }
@@ -109,6 +105,11 @@ public class ShiroConfig {
     @Bean(name = "MyRealm")
     public MyRealm myRealm() {
         return new MyRealm();
+    }
+
+    @Bean(name = "ShiroCacheManager")
+    public ShiroCacheManager shiroCacheManager() {
+        return new ShiroCacheManager();
     }
 
 }

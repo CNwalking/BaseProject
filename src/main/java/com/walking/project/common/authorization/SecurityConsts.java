@@ -26,5 +26,7 @@ public class SecurityConsts {
 
     public static final String CURRENT_TIME_MILLIS = "currentTime";
 
+    public static final String PREFIX_SHIRO_CACHE = "shiro:cache:";
+
 
 }

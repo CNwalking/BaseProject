@@ -11,6 +11,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static com.walking.project.common.ProjectConstant.MD5_SECRET_KEY;
+
 /**
  * @Author: CNwalking
  * @DateTime: 2020/4/9 22:03
@@ -53,9 +55,9 @@ public class MD5Encrypt {
      */
     public static String md5AndKey(String text, String key) {
         try {
-        // 加密后的字符串
-        String md5str = DigestUtils.md5Hex(text + key);
-        return md5str;
+            // 加密后的字符串
+            String md5str = DigestUtils.md5Hex(text + key);
+            return md5str;
         } catch (Exception e) {
             log.error("加密失败: {}" , e);
             return "";
@@ -69,9 +71,9 @@ public class MD5Encrypt {
      */
     public static String md5(String text) {
         try {
-        // 加密后的字符串
-        String md5str = DigestUtils.md5Hex(text);
-        return DigestUtils.md5Hex(text);
+            // 加密后的字符串
+            String md5str = DigestUtils.md5Hex(text);
+            return DigestUtils.md5Hex(text);
         } catch (Exception e) {
             log.error("加密失败: {}" , e);
             return "";
@@ -89,19 +91,21 @@ public class MD5Encrypt {
      */
     public static Boolean verify(String key, String text, String md5) {
         try {
-        //根据传入的密钥进行验证
-        String md5Text = md5AndKey(text,key);
-        if(Objects.equals(md5Text, md5)){
-            return true;
-        }
-
-        return false;
+            //根据传入的密钥进行验证
+            String md5Text = md5AndKey(text,key);
+            if(Objects.equals(md5Text, md5)){
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             log.error("加密失败: {}" , e);
             return false;
         }
     }
 
+//    public static void main(String[] args) {
+//        System.out.println(md5AndKey("qwe123",MD5_SECRET_KEY));
+//    }
 
 
 }

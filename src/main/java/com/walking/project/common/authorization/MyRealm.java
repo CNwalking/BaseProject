@@ -3,6 +3,7 @@ package com.walking.project.common.authorization;
 import java.util.*;
 
 import com.google.common.collect.Sets;
+import com.walking.project.common.exception.UnauthorizedException;
 import com.walking.project.dataobject.entity.User;
 import com.walking.project.mapper.UserMapper;
 import com.walking.project.utils.JWTUtils;
@@ -54,23 +55,22 @@ public class MyRealm extends AuthorizingRealm {
      * @throws AuthenticationException
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws UnauthorizedException {
         String token = (String) auth.getCredentials();
         // 解密获得account，用于和数据库进行对比
         String account = JWTUtils.getAccount(token);
         if (account == null) {
-            throw new AuthenticationException("token invalid");
+            throw new UnauthorizedException("token invalid");
         }
         User user = userMapper.selectByAccount(account);
         if (user == null) {
-            throw new AuthenticationException("User didn't existed!");
+            throw new UnauthorizedException("User didn't existed!");
+        }
+        if (! JWTUtils.verify(token)) {
+            throw new UnauthorizedException("Username or password error");
         }
 
-        if (! JWTUtils.verify(token, account, user.getPassword())) {
-            throw new AuthenticationException("Username or password error");
-        }
-
-        return new SimpleAuthenticationInfo(token, token, "my_realm");
+        return new SimpleAuthenticationInfo(token, token, "myRealm");
     }
 
 }

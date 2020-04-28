@@ -1,5 +1,6 @@
 package com.walking.project.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.walking.project.common.Result;
 import com.walking.project.common.ResultCode;
 import com.walking.project.common.annotation.CurrentUser;
@@ -10,7 +11,6 @@ import com.walking.project.utils.JWTUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.Logical;
@@ -23,7 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Date;
 
 /**
  * @Author: CNwalking
@@ -57,19 +59,16 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Result login(@RequestBody @Valid UserVO vo) {
-        User user = userService.getUserByAccount(vo.getAccount());
-        if (user.getPassword().equals(vo.getPassword())) {
-            return new Result(ResultCode.SUCCESS, JWTUtils.sign(vo.getAccount(), vo.getPassword()));
-        } else {
-            throw new UnauthorizedException();
-        }
+    public Result login(@RequestBody @Valid UserVO vo, HttpServletResponse response) {
+        log.info("User {} Login", vo.getAccount());
+        return userService.isLoginSuccess(vo, response);
     }
 
     @GetMapping("/article")
     public Result article() {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
+            log.info("authenticate success");
             return new Result(ResultCode.SUCCESS, "You are already logged in");
         } else {
             return new Result(ResultCode.SUCCESS, "You are guest");
@@ -81,6 +80,7 @@ public class UserController {
     public UserVO getCurrentUser(@CurrentUser User user) {
         UserVO vo = new UserVO();
         BeanUtils.copyProperties(user, vo);
+        log.info("currentUserVO " + JSON.toJSONString(vo));
         return vo;
     }
 
