@@ -1,5 +1,6 @@
 package com.walking.project.controller;
 
+import com.walking.project.common.APIException;
 import com.walking.project.common.Result;
 import com.walking.project.dataobject.vo.UserVO;
 import com.walking.project.service.UserService;
@@ -40,5 +41,15 @@ public class UserController {
         return new Result(vo);
         // 可以直接return, ResponseControllerAdvice 会帮你自动拼接出result
         // return vo;
+    }
+
+    @ApiOperation(value = "测试post方法连接", notes = "测试post方法连接")
+    @GetMapping("/test/exception")
+    public void testException() {
+        try {
+            int a = 1 / 0;
+        } catch (APIException e) {
+            e.printStackTrace();
+        }
     }
 }
