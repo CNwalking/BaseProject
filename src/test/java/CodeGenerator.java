@@ -71,7 +71,8 @@ public class CodeGenerator {
     public static void genModelAndMapper(String tableName, String modelName) {
         Context context = new Context(ModelType.FLAT);
         context.setId("Potato");
-        context.setTargetRuntime("MyBatis3Simple");
+        // MyBatis3Simple不能生成selective的内容,所以改成MyBatis3
+        context.setTargetRuntime("MyBatis3");
         context.addProperty(PropertyRegistry.CONTEXT_BEGINNING_DELIMITER, "`");
         context.addProperty(PropertyRegistry.CONTEXT_ENDING_DELIMITER, "`");
 
@@ -110,6 +111,13 @@ public class CodeGenerator {
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
 
         TableConfiguration tableConfiguration = new TableConfiguration(context);
+        // 以下这些都是生成了也不去用的，所以直接false不要
+        tableConfiguration.setSelectByExampleStatementEnabled(false);
+        tableConfiguration.setSelectByExampleQueryId(String.valueOf(false));
+        tableConfiguration.setDeleteByExampleStatementEnabled(false);
+        tableConfiguration.setCountByExampleStatementEnabled(false);
+        tableConfiguration.setUpdateByExampleStatementEnabled(false);
+        tableConfiguration.setDeleteByPrimaryKeyStatementEnabled(false);
         tableConfiguration.setTableName(tableName);
         if (StringUtils.isNotEmpty(modelName))tableConfiguration.setDomainObjectName(modelName);
         tableConfiguration.setGeneratedKey(new GeneratedKey("id", "Mysql", true, null));
