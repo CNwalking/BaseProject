@@ -15,7 +15,6 @@ import javax.annotation.Resource;
 * @Description: TODO
 */
 @Service
-@Transactional
 public class ${modelNameUpperCamel}ServiceImpl implements ${modelNameUpperCamel}Service {
     @Resource
     private ${modelNameUpperCamel}Mapper ${modelNameLowerCamel}Mapper;

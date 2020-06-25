@@ -1,4 +1,5 @@
 package ${basePackage}.service;
+
 import ${basePackage}.dataobject.entity.${modelNameUpperCamel};
 
 /**
