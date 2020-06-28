@@ -16,7 +16,10 @@ public enum ResultCode {
 
     VALIDATE_FAILED(401, "参数校验失败"),
 
-    ERROR(500, "未知错误");
+    ERROR(500, "未知错误"),
+
+    PARAM_ERROR_OR_EMPTY(600001, "参数错误或空"),
+    ;
 
     private int code;
     private String msg;
