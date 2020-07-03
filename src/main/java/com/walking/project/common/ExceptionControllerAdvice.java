@@ -1,5 +1,6 @@
 package com.walking.project.common;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @DateTime: 2020/4/9 22:03
  * @Description:
  */
+@Slf4j
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
 
@@ -35,6 +37,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result<String> ExceptionHandler(Exception e) {
+        log.error("业务代码里出问题了兄dei", e);
         return new Result<>(ResultCode.VALIDATE_FAILED, e.getMessage());
     }
 }
