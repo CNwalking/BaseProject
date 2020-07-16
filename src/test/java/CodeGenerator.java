@@ -19,10 +19,10 @@ import static com.walking.project.common.ProjectConstant.*;
  */
 public class CodeGenerator {
     //JDBC配置
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/BaseProject?useUnicode=true&characterEncoding=utf8&autoReconnect=true";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/BaseProject?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=UTC";
     private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "123";
-    private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
+    private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
 
     private static final String PROJECT_PATH = System.getProperty("user.dir");//项目在硬盘上的基础路径
     private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + "/src/test/resources/generator/template";//模板位置
