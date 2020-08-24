@@ -1,13 +1,10 @@
 package com.walking.project.common;
 
-import lombok.Getter;
-
 /**
  * @Author: CNwalking
  * @DateTime: 2020/4/9 22:08
  * @Description:
  */
-@Getter
 public enum ResultCode {
 
     SUCCESS(200, "操作成功"),
@@ -29,4 +26,11 @@ public enum ResultCode {
         this.msg = msg;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
 }

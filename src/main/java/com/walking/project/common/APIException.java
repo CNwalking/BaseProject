@@ -1,13 +1,11 @@
 package com.walking.project.common;
 
-import lombok.Getter;
 
 /**
  * @Author: CNwalking
  * @DateTime: 2020/4/9 22:10
  * @Description:
  */
-@Getter
 public class APIException extends RuntimeException {
     private int code;
     private String msg;
@@ -39,5 +37,13 @@ public class APIException extends RuntimeException {
     public APIException(ResultCode resultCode, String errorMsg) {
         this.code = resultCode.getCode();
         this.msg = errorMsg;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
     }
 }

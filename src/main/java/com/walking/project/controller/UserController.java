@@ -6,7 +6,8 @@ import com.walking.project.dataobject.vo.UserVO;
 import com.walking.project.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +18,12 @@ import javax.validation.Valid;
  * @DateTime: 2020/4/10 9:47 上午
  * @Description:
  */
-@Slf4j
 @Api(tags = "UserController", description = "用户模块")
 @RestController("UserController")
 @RequestMapping("/user")
 public class UserController {
+
+    private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;

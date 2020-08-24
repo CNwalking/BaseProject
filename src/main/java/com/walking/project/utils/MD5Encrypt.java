@@ -3,23 +3,21 @@ package com.walking.project.utils;
 
 import java.util.Objects;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Author: CNwalking
  * @DateTime: 2020/4/9 22:03
  * @Description:MD5加密Util.
  */
-@Slf4j
 public class MD5Encrypt {
 
-    private static final String salt = "!!!@#$WALKING*SALT￥#@!!!";
+    private final static Logger logger = LoggerFactory.getLogger(MD5Encrypt.class);
+
+    private static final String salt = "!!!@#$WALKING*SALT$#@!!!";
 
     /**
      * 带秘钥加密
@@ -32,7 +30,7 @@ public class MD5Encrypt {
             String md5str = DigestUtils.md5Hex(text + salt);
             return md5str;
         } catch (Exception e) {
-            log.error("加密失败: {}" , e);
+            logger.error("加密失败: {}" , e);
             return "";
         }
     }
@@ -54,7 +52,7 @@ public class MD5Encrypt {
             }
             return false;
         } catch (Exception e) {
-            log.error("加密失败: {}" , e);
+            logger.error("加密失败: {}" , e);
             return false;
         }
     }

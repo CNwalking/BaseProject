@@ -1,6 +1,7 @@
 package com.walking.project.common;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -14,14 +15,15 @@ import org.springframework.web.servlet.NoHandlerFoundException;
  * @DateTime: 2020/4/9 22:03
  * @Description:
  */
-@Slf4j
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
+
+    private final static Logger logger = LoggerFactory.getLogger(ExceptionControllerAdvice.class);
 
     @ExceptionHandler(APIException.class)
     @ResponseBody
     public Result<String> APIExceptionHandler(APIException e) {
-        log.error("业务代码里出问题了兄dei", e);
+        logger.error("业务代码里出问题了兄dei", e);
         return new Result<>(ResultCode.FAILED, e.getMsg());
     }
 
@@ -40,7 +42,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result exceptionHandler(Exception e) {
-        log.error("出现非业务代码中的问题", e);
+        logger.error("出现非业务代码中的问题", e);
         if (e instanceof ServletRequestBindingException) {
             return new Result<>(ResultCode.FAILED, "url绑定路由问题");
         } else if (e instanceof NoHandlerFoundException) {
