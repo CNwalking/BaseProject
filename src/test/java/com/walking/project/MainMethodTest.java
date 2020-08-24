@@ -1,15 +1,11 @@
 package com.walking.project;
 
+import java.util.Date;
+
 import com.alibaba.fastjson.JSON;
 import com.walking.project.dataobject.dto.UserDTO;
 import com.walking.project.dataobject.entity.User;
 import com.walking.project.service.impl.convert.UserConverter;
-import org.apache.commons.collections4.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @Author: CNwalking
